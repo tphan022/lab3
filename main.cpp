@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include "Sort.h"
 
 using namespace std;
 
@@ -79,6 +80,57 @@ class Sqr : public composite {
 };
 
 
+class Container {
+   protected:
+    Sort* sort_function;
+   public:
+    Container() : sort_function(NULL){};
+    Container(Sort* function) : sort_function(function) {};
+    void set_sort_function(Sort* sort_function);
+    virtual void add_element(Base* element) = 0;
+    virtual void print() = 0;
+    virtual void sort() = 0;
+    virtual void swap(int i, int j) = 0;
+    virtual Base* at(int i) = 0;
+    virtual int size() = 0;
+};
+
+class Vector_C : public Container {
+    protected:
+     vector<Base*> b;
+     Sort* sort_function;
+    public:
+     Vector_C() : sort_function(NULL){};
+     Vector_C(Sort* function) : sort_function(function) {};
+     void set_sort_function(Sort* sort_function) {this->sort_function
+           = sort_function;}
+     virtual void add_element(Base* element) {
+         b.push_back(element);
+         sort();
+     }
+     void print() {
+         for(unsigned int i = 0; i < b.size(); i++) {
+              cout << b.at(i);
+         }
+         cout << endl;
+     }
+     void sort() {
+         sort_function->sort(this);
+     }
+     void swap(int i, int j) {
+         Base* tmp = b.at(i);
+         b.at(i) = b.at(j);
+         b.at(j) = tmp;
+     }
+     Base* at(int i) {
+         return b.at(i);
+     }
+     int size() {
+         return b.size();
+     }
+};
+
+
 
 
 int main(){
@@ -89,15 +141,12 @@ int main(){
    Op one2(1.0);
    Base* n12 = &one2;
    Op three(3.0);
-   Base* n3 = &three;
    Op seven(7.0);
-   Base* n7 = &seven;
    Op four(4.0);
    Op six(6.0);
    Base* n6 = &six;
    Base* n4 = &four;
    Sqr Root;
-   Base* Ro = &Root;
    Div divide;
    Base* di = &divide;
    Add addition;
