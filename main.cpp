@@ -160,7 +160,7 @@ class Bsort : public Sort { // this is the bubble sort class
       for(i = 1; (i <= container->size()) && flag; i++) {
         flag = 0;
         for (j = 0; j < (container->size() - 1); j++) {
-          if(container->at(j+1) > container->at(j)) {
+          if(container->at(j+1)->evaluate() > container->at(j)->evaluate()) {
              container->swap(j,j+1);
              flag = 1;
           }
@@ -223,6 +223,18 @@ vcontainer.set_sort_function(&selectionS);
 vcontainer.sort();
 vcontainer.print();
 
+cout << "Vector test with bubble sort: " << endl;
+Vector_C vcontainer2;
+Bsort BubbleS;
+vcontainer2.add_element(n6);
+vcontainer2.add_element(di);
+vcontainer2.add_element(mu);
+vcontainer2.add_element(n11);
+vcontainer2.add_element(n7);
+vcontainer2.add_element(ad);
+vcontainer2.set_sort_function(&BubbleS);
+vcontainer2.sort();
+vcontainer2.print();
 
 return 0;
 }
