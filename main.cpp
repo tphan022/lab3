@@ -152,6 +152,23 @@ class Ssort : public Sort { // this is the selection sort class
 
 };
 
+class Bsort : public Sort { // this is the bubble sort class
+   public:
+    Bsort() {}
+    void sort(Container* container) {
+      int i, j, flag = 1;
+      for(i = 1; (i <= container->size()) && flag; i++) {
+        flag = 0;
+        for (j = 0; j < (container->size() - 1); j++) {
+          if(container->at(j+1) > container->at(j)) {
+             container->swap(j,j+1);
+             flag = 1;
+          }
+        }
+      }
+    }
+};
+
 void Vector_C::sort() {
     sort_function->sort(this);
 }
