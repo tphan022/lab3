@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <list>
 
 
 using namespace std;
@@ -105,7 +106,7 @@ class Vector_C : public Container {
      Vector_C(Sort* function) : sort_function(function) {};
      void set_sort_function(Sort* sort_function) {this->sort_function
            = sort_function;}
-     virtual void add_element(Base* element) {
+     void add_element(Base* element) {
          b.push_back(element);
      }
      void print() {
@@ -127,6 +128,52 @@ class Vector_C : public Container {
          return b.size();
      }
 };
+
+class List_C : public Container {
+    protected:
+     list<Base*> b;
+     Sort* sort_function;
+    public:
+     List_C() : sort_function(NULL) {};
+     List_C(Sort* function) : sort_function(function) {};
+     void set_sort_function(Sort* sort_function) {this->sort_function
+           = sort_function;}
+     void add_element(Base* element) {
+       b.push_back(element);
+     }
+     void print() {
+       for(list<Base*>::iterator i = b.begin(); i != b.end(); i++) {
+           cout << (*i)->evaluate() << " " ;
+       }
+       cout << endl;
+     }
+     void sort();
+     void swap(int i, int j) {
+        list<Base*>::iterator itI = b.begin();
+        list<Base*>::iterator itJ = b.begin();
+        Base* temp;
+        for(int i1 = 0; i1 < i; i1++) {
+          itI++;
+        }
+        for(int j1 = 0; j1 < j; j1++) {
+          itJ++;
+        }
+        temp = *itJ;
+        *itJ = *itI;
+        *itI = temp;
+     }
+     Base* at(int i) {
+        list<Base*>::iterator W = b.begin();
+        for(int j = 0; j < i; j++) {
+           W++;
+        }
+        return *W;
+     }
+     int size() {
+        return b.size();
+     }
+};
+
 
 class Sort {
    public:
@@ -173,13 +220,16 @@ void Vector_C::sort() {
     sort_function->sort(this);
 }
 
+void List_C::sort() {
+    sort_function->sort(this);
+}
 
 int main(){
    Op two(2.0);
    Base* n2 = &two;
    Op one1(1.0);
    Base* n11 = &one1;
-   Op one2(1.0);
+   Op one2(14.0);
    Base* n12 = &one2;
    Op three(3.0);
    Op seven(7.0);
@@ -235,6 +285,33 @@ vcontainer2.add_element(ad);
 vcontainer2.set_sort_function(&BubbleS);
 vcontainer2.sort();
 vcontainer2.print();
+
+cout << "List test with selection sort: " << endl;
+List_C lcontainer;
+
+lcontainer.add_element(n6);
+lcontainer.add_element(di);
+lcontainer.add_element(n12);
+lcontainer.add_element(n11);
+lcontainer.add_element(n7);
+lcontainer.add_element(ad);
+lcontainer.set_sort_function(&selectionS);
+lcontainer.sort();
+lcontainer.print();
+
+cout << "List test with bubble sort: " << endl;
+List_C lcontainer2;
+
+lcontainer2.add_element(n6);
+lcontainer2.add_element(di);
+lcontainer2.add_element(n12);
+lcontainer2.add_element(n11);
+lcontainer2.add_element(n7);
+lcontainer2.add_element(ad);
+lcontainer2.set_sort_function(&BubbleS);
+lcontainer2.sort();
+lcontainer2.print();
+
 
 return 0;
 }
