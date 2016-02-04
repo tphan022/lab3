@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include "Sort.h"
+
 
 using namespace std;
 
@@ -79,6 +79,7 @@ class Sqr : public composite {
     void addright(Base* r) {left = r;}
 };
 
+class Sort;
 
 class Container {
    protected:
@@ -106,17 +107,14 @@ class Vector_C : public Container {
            = sort_function;}
      virtual void add_element(Base* element) {
          b.push_back(element);
-         sort();
      }
      void print() {
          for(unsigned int i = 0; i < b.size(); i++) {
-              cout << b.at(i);
+              cout <<  b.at(i)->evaluate() << " " ;
          }
          cout << endl;
      }
-     void sort() {
-         sort_function->sort(this);
-     }
+     void sort();
      void swap(int i, int j) {
          Base* tmp = b.at(i);
          b.at(i) = b.at(j);
@@ -130,7 +128,33 @@ class Vector_C : public Container {
      }
 };
 
+class Sort {
+   public:
+    Sort() {}
+    virtual void sort(Container* container) = 0;
+};
 
+class Ssort : public Sort { // this is the selection sort class
+   public:
+    Ssort() {}
+    void sort(Container* container) {
+      int i, j, first;
+      for(i = container->size() - 1; i > 0; i--) {
+         first = 0;
+         for (j = 1; j <= i; j++) {
+            if(container->at(j)->evaluate() < container->at(first)->evaluate()) {
+               first = j;
+            }
+         }
+         container->swap(first,i);
+      }
+    }
+
+};
+
+void Vector_C::sort() {
+    sort_function->sort(this);
+}
 
 
 int main(){
@@ -142,6 +166,7 @@ int main(){
    Base* n12 = &one2;
    Op three(3.0);
    Op seven(7.0);
+   Base* n7 = &seven;
    Op four(4.0);
    Op six(6.0);
    Base* n6 = &six;
@@ -156,6 +181,7 @@ int main(){
    Sub subtr;
    Base* su = &subtr;
   // Root.addright(n2);
+
    Root.addleft(mu);
    addition.addleft(n11);
    addition.addright(n12);
@@ -166,6 +192,20 @@ int main(){
    multi.addleft(ad);
    multi.addright(di);
    cout << Root.evaluate() << endl;
+
+cout << "Vector test with selection sort: " << endl;
+Vector_C vcontainer;
+Ssort selectionS;
+vcontainer.add_element(n6);
+vcontainer.add_element(di);
+vcontainer.add_element(mu);
+vcontainer.add_element(n11);
+vcontainer.add_element(n7);
+vcontainer.add_element(ad);
+vcontainer.set_sort_function(&selectionS);
+vcontainer.sort();
+vcontainer.print();
+
 
 return 0;
 }
