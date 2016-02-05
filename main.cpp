@@ -229,8 +229,8 @@ int main(){
    Base* n2 = &two;
    Op one1(1.0);
    Base* n11 = &one1;
-   Op one2(14.0);
-   Base* n12 = &one2;
+   Op fourteen(14.0);
+   Base* n14 = &fourteen;
    Op three(3.0);
    Op seven(7.0);
    Base* n7 = &seven;
@@ -251,7 +251,7 @@ int main(){
 
    Root.addleft(mu);
    addition.addleft(n11);
-   addition.addright(n12);
+   addition.addright(n14);
    divide.addleft(n6);
    divide.addright(su);
    subtr.addleft(n4);
@@ -291,10 +291,11 @@ List_C lcontainer;
 
 lcontainer.add_element(n6);
 lcontainer.add_element(di);
-lcontainer.add_element(n12);
+lcontainer.add_element(n14);
 lcontainer.add_element(n11);
 lcontainer.add_element(n7);
 lcontainer.add_element(ad);
+lcontainer.add_element(mu);
 lcontainer.set_sort_function(&selectionS);
 lcontainer.sort();
 lcontainer.print();
@@ -304,7 +305,8 @@ List_C lcontainer2;
 
 lcontainer2.add_element(n6);
 lcontainer2.add_element(di);
-lcontainer2.add_element(n12);
+lcontainer2.add_element(mu);
+lcontainer2.add_element(n14);
 lcontainer2.add_element(n11);
 lcontainer2.add_element(n7);
 lcontainer2.add_element(ad);
